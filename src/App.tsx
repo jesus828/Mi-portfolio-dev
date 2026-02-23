@@ -51,6 +51,7 @@ const PROJECTS = [
   { id: 4, title: "Vinatea y Toyama", category: "CMS", year: "2024", description: "Ecosistema de consultoría legal y laboral con gestión de procesos, soluciones educativas y panel de servicios estratégicos.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "Polyglan"], color: "#e63326", link: "https://www.vinateatoyama.com/" },
   { id: 5, title: "Landing Inmobiliaria", category: "CMS", year: "2024", description: "Landing inmobiliaria con catálogo de lanzamientos, reserva de unidades y panel de amenidades.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js"], color: "#ffc72c", link: "https://www.vibrant.com.pe/" },
   { id: 6, title: "Agencia Estratégica", category: "CMS", year: "2025", description: "Plataforma creativa con servicios de branding, desarrollo web y panel de posicionamiento de marca", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "php"], color: "#A1CDE6", link: "https://www.innamorati.ch/" },
+  { id: 7, title: "Agencia Estratégica 2", category: "CMS", year: "2025", description: "Plataforma creativa con servicios de branding, desarrollo web y panel de posicionamiento de marca", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "php"], color: "#A1CDE6", link: "https://www.innamorati.ch/" },
 ];
 
 function ls(key: string, fallback: any) {
