@@ -41,7 +41,7 @@ async function findLink(token: string) {
   return rows[0] || null;
 }
 
-const CATEGORIES = ["All", "Full Stack", "Frontend", "Mobile", "Backend", "Tool", "CMS"];
+const CATEGORIES = ["All", "React", "Frontend", "Mobile", "Backend", "Tool", "CMS"];
 const DEFAULT_PASSWORD = "portfolio2026";
 
 const PROJECTS = [
@@ -334,7 +334,7 @@ export default function App() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", background: "#070707", color: "#fff", fontFamily: "Georgia,serif" }}>
+    <div style={{ minHeight: "100vh", color: "#fff", fontFamily: "Georgia,serif" }}>
       <style>{css}</style>
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 48px", borderBottom: "1px solid #141414", position: "sticky", top: 0, background: "rgba(7,7,7,0.97)", backdropFilter: "blur(12px)", zIndex: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
