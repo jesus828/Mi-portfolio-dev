@@ -1,7 +1,5 @@
-﻿
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 
-// ── Supabase config ──────────────────────────────────────────
 const SUPABASE_URL = "https://gsrctkddyxustjsmqnzm.supabase.co";
 const SUPABASE_KEY = "sb_publishable_B5-3N5Kw-ZJbdOaM402otA_cvCOjkgZ";
 
@@ -16,50 +14,52 @@ async function sbFetch(path: string, options: any = {}) {
       ...options.headers,
     },
   });
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(err);
-  }
+  if (!res.ok) { const err = await res.text(); throw new Error(err); }
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
 
-async function getLinks() {
-  return await sbFetch("portfolio_links?order=created_at.desc") || [];
-}
-async function insertLink(link: any) {
-  return await sbFetch("portfolio_links", { method: "POST", prefer: "return=representation", body: JSON.stringify(link) });
-}
-async function updateLink(token: string, data: any) {
-  return await sbFetch(`portfolio_links?token=eq.${token}`, { method: "PATCH", prefer: "return=representation", body: JSON.stringify(data) });
-}
-async function deleteLink(token: string) {
-  return await sbFetch(`portfolio_links?token=eq.${token}`, { method: "DELETE" });
-}
-async function findLink(token: string) {
-  const rows = await sbFetch(`portfolio_links?token=eq.${token}&limit=1`) || [];
-  return rows[0] || null;
-}
+async function getLinks() { return await sbFetch("portfolio_links?order=created_at.desc") || []; }
+async function insertLink(link: any) { return await sbFetch("portfolio_links", { method: "POST", prefer: "return=representation", body: JSON.stringify(link) }); }
+async function updateLink(token: string, data: any) { return await sbFetch(`portfolio_links?token=eq.${token}`, { method: "PATCH", prefer: "return=representation", body: JSON.stringify(data) }); }
+async function deleteLink(token: string) { return await sbFetch(`portfolio_links?token=eq.${token}`, { method: "DELETE" }); }
+async function findLink(token: string) { const rows = await sbFetch(`portfolio_links?token=eq.${token}&limit=1`) || []; return rows[0] || null; }
 
-const CATEGORIES = ["All", "React", "Frontend", "Mobile", "Backend", "Tool", "CMS"];
+const ALL_CATEGORIES = ["CMS", "React", "Frontend", "Mobile", "Backend", "Tool"];
 const DEFAULT_PASSWORD = "portfolio2026";
 
+const ABOUT = {
+  name: "Jesus Dev",
+  role: "Full Developer",
+  avatar: "JD",
+  email: "albejes12@gmail.com",
+  location: "Lima, Perú",
+  bio: "Desarrollador con más de 3 años de experiencia creando experiencias digitales. Especializado en WordPress, React y desarrollo de plataformas web de alto rendimiento.",
+  skills: ["WordPress", "React", "Elementor Expert", "Crocoblock specialist","HTML", "PHP", "JavaScript", "CSS", "MySQL","Migracion de sitios","Optimización de rendimiento","Desarrollo a medida","Soluciones Errores o Bugs","Mantenimiento y Soporte", "Backups y Restauración", "Capacitación y Asesoría", "Figma", "creacion de Mailings", "Git", "GitHub", "FTP con FileZilla", "Polyglan", "phpMyAdmin", "Bootstrap", "tailwindcss"],
+  achievements: [
+    { icon: "🚀", label: "Proyectos completados", value: "20+" },
+    { icon: "🌍", label: "Países atendidos", value: "1" },
+    { icon: "⭐", label: "Clientes satisfechos", value: "36" },
+    { icon: "📅", label: "Años de experiencia", value: "3+" },
+  ],
+};
+
 const PROJECTS = [
-  { id: 1, title: "Ecu-consultores", category: "CMS", year: "2022", description: "Plataforma de comercio electrónico con carrito, pagos y panel admin.", tech: ["WordPress", "PHP", "Bootstrap", "MySQL"], color: "#6992ED", link: "https://ecuconsultores.org.pe/" },
-  { id: 2, title: "Atria Miraflores", category: "CMS", year: "2025", description: "Dashboard interactivo con gráficos en tiempo real y KPIs clave.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js"], color: "#4DFFB4", link: "https://atriamiraflores.pe/" },
-  { id: 3, title: "Inmgenio - Inmobiliaria", category: "CMS", year: "2025", description: "Plataforma inmobiliaria integral con buscador avanzado, gestión de propiedades y panel administrativo para agentes.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js"], color: "#ffffff", link: "https://www.inmgenio.pe/" },
-  { id: 4, title: "Vinatea y Toyama", category: "CMS", year: "2024", description: "Ecosistema de consultoría legal y laboral con gestión de procesos, soluciones educativas y panel de servicios estratégicos.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "Polyglan"], color: "#e63326", link: "https://www.vinateatoyama.com/" },
-  { id: 5, title: "Landing Inmobiliaria", category: "CMS", year: "2024", description: "Landing inmobiliaria con catálogo de lanzamientos, reserva de unidades y panel de amenidades.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js"], color: "#ffc72c", link: "https://www.vibrant.com.pe/" },
-  { id: 6, title: "Agencia Estratégica", category: "CMS", year: "2025", description: "Plataforma creativa con servicios de branding, desarrollo web y panel de posicionamiento de marca", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "php"], color: "#A1CDE6", link: "https://www.innamorati.ch/" },
+  { id: 1, title: "Ecu-consultores", category: "CMS", year: "2022", description: "Plataforma de consultoría con carrito, pagos y panel admin.", tech: ["WordPress", "PHP", "Bootstrap", "MySQL"], color: "#6992ED", link: "https://ecuconsultores.org.pe/" },
+  { id: 2, title: "Atria Miraflores", category: "CMS", year: "2025", description: "Sitio inmobiliario con diseño premium y gestión avanzada de propiedades.", tech: ["WordPress", "Elementor Expert", "Crocoblock specialist", "css", "js"], color: "#4DFFB4", link: "https://atriamiraflores.pe/" },
+  { id: 3, title: "Inmgenio - Inmobiliaria", category: "CMS", year: "2025", description: "Plataforma inmobiliaria con buscador avanzado y panel para agentes.", tech: ["WordPress", "Elementor Expert", "Crocoblock specialist", "css", "js"], color: "#ffffff", link: "https://www.inmgenio.pe/" },
+  { id: 4, title: "Vinatea y Toyama", category: "CMS", year: "2024", description: "Ecosistema legal con gestión de procesos y panel de servicios estratégicos.", tech: ["WordPress", "Elementor Expert", "Crocoblock specialist", "css", "js", "Polyglan"], color: "#e63326", link: "https://www.vinateatoyama.com/" },
+  { id: 5, title: "Landing Inmobiliaria", category: "CMS", year: "2024", description: "Landing con catálogo de lanzamientos, reserva de unidades y amenidades.", tech: ["WordPress", "Elementor Expert", "Crocoblock specialist", "css", "js"], color: "#ffc72c", link: "https://www.vibrant.com.pe/" },
+  { id: 6, title: "Agencia Estratégica", category: "CMS", year: "2025", description: "Plataforma creativa con branding, desarrollo web y posicionamiento de marca.", tech: ["WordPress", "Elementor Expert", "Crocoblock specialist", "css", "js", "php"], color: "#A1CDE6", link: "https://www.innamorati.ch/" },
 ];
 
-function ls(key: string, fallback: any) {
-  try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : fallback; } catch { return fallback; }
-}
-function lsSet(key: string, val: any) {
-  try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
-}
+function ls(key: string, fallback: any) { try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : fallback; } catch { return fallback; } }
+function lsSet(key: string, val: any) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} }
 function getPassword() { return ls("portfolio_password", DEFAULT_PASSWORD); }
+function localDateStr() {
+  const d = new Date();
+  return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
+}
 
 export default function App() {
   const [view, setView] = useState("loading");
@@ -73,12 +73,17 @@ export default function App() {
   const [filter, setFilter] = useState("All");
   const [hovered, setHovered] = useState<number | null>(null);
   const [selectedCat, setSelectedCat] = useState("All");
+  const [selectedVisibleCats, setSelectedVisibleCats] = useState<string[]>([...ALL_CATEGORIES]);
+  const [showAbout, setShowAbout] = useState(false);
   const [adminTab, setAdminTab] = useState("links");
   const [currentPw, setCurrentPw] = useState("");
   const [newPw, setNewPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const [pwMsg, setPwMsg] = useState<{ type: string; text: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [visibleCats, setVisibleCats] = useState<string[]>([...ALL_CATEGORIES]);
+  const [showAboutSection, setShowAboutSection] = useState(true);
+  const [portfolioSection, setPortfolioSection] = useState<"projects" | "about">("projects");
 
   useEffect(() => { init(); }, []);
 
@@ -88,8 +93,13 @@ export default function App() {
     if (token) {
       try {
         const found = await findLink(token);
-        if (found && found.active) { setFilter(found.category || "All"); setView("portfolio"); }
-        else setView("denied");
+        if (found && found.active) {
+          const cats = found.visible_cats ? JSON.parse(found.visible_cats) : [...ALL_CATEGORIES];
+          setVisibleCats(cats);
+          setFilter(found.category || "All");
+          setShowAboutSection(found.show_about !== false);
+          setView("portfolio");
+        } else setView("denied");
       } catch { setView("denied"); }
       return;
     }
@@ -101,68 +111,66 @@ export default function App() {
   async function loadLinks() {
     setLoadingLinks(true);
     try { const data = await getLinks(); setLinks(data); }
-    catch (e: any) { setError("Error conectando con la base de datos: " + e.message); }
+    catch (e: any) { setError("Error: " + e.message); }
     finally { setLoadingLinks(false); }
   }
 
   function tryLogin(e: React.FormEvent) {
     e.preventDefault();
-    if (pw === getPassword()) {
-      setIsAdmin(true); lsSet("portfolio_session", true); loadLinks(); setView("admin"); setLoginError(false); setPw("");
-    } else {
-      setLoginError(true); setPw(""); setTimeout(() => setLoginError(false), 2000);
-    }
+    if (pw === getPassword()) { setIsAdmin(true); lsSet("portfolio_session", true); loadLinks(); setView("admin"); setLoginError(false); setPw(""); }
+    else { setLoginError(true); setPw(""); setTimeout(() => setLoginError(false), 2000); }
   }
 
-  function logout() {
-    setIsAdmin(false); lsSet("portfolio_session", false);
-    window.history.pushState({}, "", window.location.pathname); setView("login"); setPw("");
-  }
+  function logout() { setIsAdmin(false); lsSet("portfolio_session", false); window.history.pushState({}, "", window.location.pathname); setView("login"); setPw(""); }
 
   async function genLink() {
     const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
     const token = Array.from({ length: 16 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
     const catParam = selectedCat !== "All" ? `&cat=${encodeURIComponent(selectedCat)}` : "";
     const url = `${window.location.origin}${window.location.pathname}?token=${token}${catParam}`;
-    try { await insertLink({ token, url, category: selectedCat, active: true }); await loadLinks(); setNewLink(url); setCopied(null); }
-    catch (e: any) { setError("Error generando link: " + e.message); }
+    try {
+      await insertLink({ token, url, category: selectedCat, active: true, visible_cats: JSON.stringify(selectedVisibleCats), show_about: showAbout, created_date: localDateStr() });
+      await loadLinks(); setNewLink(url); setCopied(null);
+    } catch (e: any) { setError("Error generando link: " + e.message); }
   }
 
   async function toggleLinkActive(token: string, current: boolean) {
     try { await updateLink(token, { active: !current }); setLinks(prev => prev.map(l => l.token === token ? { ...l, active: !current } : l)); }
-    catch (e: any) { setError("Error actualizando link: " + e.message); }
+    catch (e: any) { setError(e.message); }
   }
 
   async function removeLinkItem(token: string) {
     try { await deleteLink(token); setLinks(prev => prev.filter(l => l.token !== token)); }
-    catch (e: any) { setError("Error borrando link: " + e.message); }
+    catch (e: any) { setError(e.message); }
   }
 
   async function changeLinkCategory(token: string, newCat: string) {
     const catParam = newCat !== "All" ? `&cat=${encodeURIComponent(newCat)}` : "";
     const newUrl = `${window.location.origin}${window.location.pathname}?token=${token}${catParam}`;
     try { await updateLink(token, { category: newCat, url: newUrl }); setLinks(prev => prev.map(l => l.token === token ? { ...l, category: newCat, url: newUrl } : l)); }
-    catch (e: any) { setError("Error cambiando categoría: " + e.message); }
+    catch (e: any) { setError(e.message); }
   }
 
-  function copy(url: string) {
-    navigator.clipboard.writeText(url).catch(() => {});
-    setCopied(url); setTimeout(() => setCopied(null), 2000);
-  }
+  function copy(url: string) { navigator.clipboard.writeText(url).catch(() => {}); setCopied(url); setTimeout(() => setCopied(null), 2000); }
 
   function changePassword(e: React.FormEvent) {
     e.preventDefault();
-    if (currentPw !== getPassword()) { setPwMsg({ type: "error", text: "La contraseña actual es incorrecta" }); return; }
+    if (currentPw !== getPassword()) { setPwMsg({ type: "error", text: "Contraseña actual incorrecta" }); return; }
     if (newPw.length < 6) { setPwMsg({ type: "error", text: "Mínimo 6 caracteres" }); return; }
     if (newPw !== confirmPw) { setPwMsg({ type: "error", text: "Las contraseñas no coinciden" }); return; }
     lsSet("portfolio_password", newPw); setCurrentPw(""); setNewPw(""); setConfirmPw("");
     setPwMsg({ type: "ok", text: "✓ Contraseña actualizada" }); setTimeout(() => setPwMsg(null), 3000);
   }
 
-  function goToPortfolio() { window.history.pushState({}, "", window.location.pathname); setFilter("All"); setView("portfolio"); }
+  function toggleVisibleCat(cat: string) {
+    setSelectedVisibleCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
+  }
+
+  function goToPortfolio() { window.history.pushState({}, "", window.location.pathname); setFilter("All"); setVisibleCats([...ALL_CATEGORIES]); setShowAboutSection(true); setView("portfolio"); }
   function goToAdmin() { window.history.pushState({}, "", window.location.pathname); setView("admin"); }
 
-  const shown = filter === "All" ? PROJECTS : PROJECTS.filter(p => p.category === filter);
+  const menuCats = ["All", ...visibleCats.filter(c => ALL_CATEGORIES.includes(c))];
+  const shown = filter === "All" ? PROJECTS.filter(p => visibleCats.includes(p.category)) : PROJECTS.filter(p => p.category === filter);
 
   const css = `
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -241,27 +249,46 @@ export default function App() {
 
         {adminTab === "links" && <>
           <h2 style={{ fontSize: 26, fontWeight: 400, fontFamily: "Georgia,serif", marginBottom: 32 }}>Links de Acceso</h2>
-          <div style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 8, padding: "24px", marginBottom: 24 }}>
-            <p style={{ fontSize: 10, color: "#cccccc", letterSpacing: 2, marginBottom: 16 }}>GENERAR NUEVO LINK</p>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 12, flexWrap: "wrap" }}>
-              <div style={{ flex: 1, minWidth: 200 }}>
-                <p style={{ fontSize: 10, color: "#cccccc", marginBottom: 8 }}>Categoría inicial:</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                  {CATEGORIES.map(c => (
-                    <button key={c} onClick={() => setSelectedCat(c)}
-                      style={{ background: selectedCat === c ? "#4DFFB4" : "#1a1a1a", color: selectedCat === c ? "#000" : "#666", border: `1px solid ${selectedCat === c ? "#4DFFB4" : "#2a2a2a"}`, padding: "5px 12px", fontSize: 11, cursor: "pointer", borderRadius: 20, transition: "all 0.15s" }}>
-                      {c}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <button onClick={genLink} style={{ background: "#4DFFB4", color: "#000", border: "none", padding: "12px 24px", fontSize: 12, fontWeight: 800, cursor: "pointer", borderRadius: 4, letterSpacing: 1, whiteSpace: "nowrap" }}>+ GENERAR LINK</button>
+
+          <div style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 8, padding: "28px", marginBottom: 24 }}>
+            <p style={{ fontSize: 10, color: "#cccccc", letterSpacing: 2, marginBottom: 24 }}>CONFIGURAR NUEVO LINK</p>
+
+            <p style={{ fontSize: 10, color: "#777", marginBottom: 8, letterSpacing: 1 }}>CATEGORÍA QUE SE MUESTRA PRIMERO:</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 24 }}>
+              {["All", ...ALL_CATEGORIES].map(c => (
+                <button key={c} onClick={() => setSelectedCat(c)}
+                  style={{ background: selectedCat === c ? "#4DFFB4" : "#1a1a1a", color: selectedCat === c ? "#000" : "#666", border: `1px solid ${selectedCat === c ? "#4DFFB4" : "#2a2a2a"}`, padding: "5px 12px", fontSize: 11, cursor: "pointer", borderRadius: 20, transition: "all 0.15s" }}>
+                  {c}
+                </button>
+              ))}
             </div>
+
+            <p style={{ fontSize: 10, color: "#777", marginBottom: 8, letterSpacing: 1 }}>CATEGORÍAS VISIBLES EN EL MENÚ:</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 24 }}>
+              {ALL_CATEGORIES.map(c => (
+                <button key={c} onClick={() => toggleVisibleCat(c)}
+                  style={{ background: selectedVisibleCats.includes(c) ? "rgba(77,255,180,0.1)" : "transparent", color: selectedVisibleCats.includes(c) ? "#4DFFB4" : "#444", border: `1px solid ${selectedVisibleCats.includes(c) ? "#4DFFB4" : "#2a2a2a"}`, padding: "5px 12px", fontSize: 11, cursor: "pointer", borderRadius: 20, transition: "all 0.15s" }}>
+                  {selectedVisibleCats.includes(c) ? "✓ " : ""}{c}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+              <button onClick={() => setShowAbout(!showAbout)}
+                style={{ width: 36, height: 20, borderRadius: 10, background: showAbout ? "#4DFFB4" : "#2a2a2a", border: "none", cursor: "pointer", position: "relative", transition: "all 0.2s" }}>
+                <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#fff", position: "absolute", top: 3, left: showAbout ? 19 : 3, transition: "all 0.2s" }} />
+              </button>
+              <span style={{ fontSize: 11, color: "#cccccc" }}>Incluir sección "Sobre mí"</span>
+            </div>
+
+            <button onClick={genLink} style={{ background: "#4DFFB4", color: "#000", border: "none", padding: "12px 28px", fontSize: 12, fontWeight: 800, cursor: "pointer", borderRadius: 4, letterSpacing: 1 }}>
+              + GENERAR LINK
+            </button>
           </div>
 
           {newLink && (
             <div style={{ background: "rgba(77,255,180,0.05)", border: "1px solid rgba(77,255,180,0.2)", borderRadius: 6, padding: "18px 22px", marginBottom: 24 }}>
-              <p style={{ fontSize: 10, color: "#4DFFB4", letterSpacing: 2, marginBottom: 10 }}>✨ LINK GENERADO · Categoría: <strong>{selectedCat}</strong></p>
+              <p style={{ fontSize: 10, color: "#4DFFB4", letterSpacing: 2, marginBottom: 10 }}>✨ LINK GENERADO</p>
               <div style={{ display: "flex", gap: 10, alignItems: "center", background: "rgba(0,0,0,0.3)", borderRadius: 3, padding: "10px 14px" }}>
                 <code style={{ flex: 1, fontSize: 11, color: "#aaa", wordBreak: "break-all" }}>{newLink}</code>
                 <button onClick={() => copy(newLink)} style={{ background: "#4DFFB4", color: "#000", border: "none", padding: "8px 14px", fontSize: 11, fontWeight: 800, cursor: "pointer", borderRadius: 3, whiteSpace: "nowrap" }}>
@@ -281,19 +308,20 @@ export default function App() {
           </div>
 
           <div style={{ background: "#0e0e0e", border: "1px solid #1a1a1a", borderRadius: 6, overflow: "hidden" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 150px 80px 80px 230px", padding: "10px 18px", background: "#111", fontSize: 9, color: "#cccccc", letterSpacing: 2, borderBottom: "1px solid #1a1a1a" }}>
-              <span>TOKEN</span><span>CATEGORÍA</span><span>FECHA</span><span>ESTADO</span><span>ACCIONES</span>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 140px 90px 70px 70px 230px", padding: "10px 18px", background: "#111", fontSize: 9, color: "#cccccc", letterSpacing: 2, borderBottom: "1px solid #1a1a1a" }}>
+              <span>TOKEN</span><span>CAT. DEFECTO</span><span>FECHA</span><span>SOBRE MÍ</span><span>ESTADO</span><span>ACCIONES</span>
             </div>
-            {loadingLinks && <div style={{ padding: "36px", textAlign: "center", color: "#444", fontSize: 13 }}>Cargando...</div>}
-            {!loadingLinks && links.length === 0 && <div style={{ padding: "36px", textAlign: "center", color: "#cccccc", fontSize: 13 }}>Aún no hay links — genera el primero ↑</div>}
+            {loadingLinks && <div style={{ padding: "36px", textAlign: "center", color: "#444" }}>Cargando...</div>}
+            {!loadingLinks && links.length === 0 && <div style={{ padding: "36px", textAlign: "center", color: "#555" }}>Aún no hay links — genera el primero ↑</div>}
             {!loadingLinks && links.map((l: any) => (
-              <div key={l.token} style={{ display: "grid", gridTemplateColumns: "1fr 150px 80px 80px 230px", padding: "13px 18px", borderBottom: "1px solid #141414", alignItems: "center" }}>
+              <div key={l.token} style={{ display: "grid", gridTemplateColumns: "1fr 140px 90px 70px 70px 230px", padding: "13px 18px", borderBottom: "1px solid #141414", alignItems: "center" }}>
                 <code style={{ fontSize: 11, color: "#555" }}>···{l.token.slice(-10)}</code>
                 <select value={l.category || "All"} onChange={e => changeLinkCategory(l.token, e.target.value)}
                   style={{ background: "#1a1a1a", border: "1px solid #2a2a2a", color: "#4DFFB4", padding: "4px 8px", fontSize: 10, cursor: "pointer", borderRadius: 3, outline: "none", fontFamily: "monospace" }}>
-                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {["All", ...ALL_CATEGORIES].map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
-                <span style={{ fontSize: 11, color: "#444" }}>{l.created_at ? new Date(l.created_at).toLocaleDateString("es-ES") : "-"}</span>
+                <span style={{ fontSize: 11, color: "#555" }}>{l.created_date || "-"}</span>
+                <span style={{ fontSize: 11, color: l.show_about ? "#4DFFB4" : "#444" }}>{l.show_about ? "Sí" : "No"}</span>
                 <span style={{ fontSize: 10, padding: "2px 8px", borderRadius: 20, width: "fit-content", background: l.active ? "rgba(77,255,180,0.1)" : "rgba(255,77,77,0.1)", color: l.active ? "#4DFFB4" : "#FF4D4D" }}>
                   {l.active ? "Activo" : "Inactivo"}
                 </span>
@@ -333,72 +361,116 @@ export default function App() {
     </div>
   );
 
+  // ── PORTFOLIO ──
   return (
     <div style={{ minHeight: "100vh", color: "#fff", fontFamily: "Georgia,serif" }}>
       <style>{css}</style>
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 48px", borderBottom: "1px solid #141414", position: "sticky", top: 0, background: "rgba(7,7,7,0.97)", backdropFilter: "blur(12px)", zIndex: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 38, height: 38, background: "linear-gradient(135deg,#4DFFB4,#4DC8FF)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800, color: "#000", fontFamily: "monospace" }}>JD</div>
+          <div style={{ width: 38, height: 38, background: "linear-gradient(135deg,#4DFFB4,#4DC8FF)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800, color: "#000", fontFamily: "monospace" }}>{ABOUT.avatar}</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 600 }}>Jesus Dev</div>
-            <div style={{ fontSize: 10, color: "#919191", fontFamily: "monospace" }}>Full Developer</div>
+            <div style={{ fontSize: 14, fontWeight: 600 }}>{ABOUT.name}</div>
+            <div style={{ fontSize: 10, color: "#919191", fontFamily: "monospace" }}>{ABOUT.role}</div>
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <nav style={{ display: "flex", gap: 4 }}>
-            {CATEGORIES.map(c => (
-              <button key={c} onClick={() => setFilter(c)}
-                style={{ background: filter === c ? "#1a1a1a" : "transparent", border: `1px solid ${filter === c ? "#333" : "transparent"}`, color: filter === c ? "#fff" : "#cccccc", padding: "5px 12px", fontSize: 11, cursor: "pointer", borderRadius: 20, fontFamily: "monospace", transition: "all 0.15s" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <nav style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+            {menuCats.map(c => (
+              <button key={c} onClick={() => { setPortfolioSection("projects"); setFilter(c); }}
+                style={{ background: portfolioSection === "projects" && filter === c ? "#1a1a1a" : "transparent", border: `1px solid ${portfolioSection === "projects" && filter === c ? "#333" : "transparent"}`, color: portfolioSection === "projects" && filter === c ? "#fff" : "#cccccc", padding: "5px 12px", fontSize: 11, cursor: "pointer", borderRadius: 20, fontFamily: "monospace", transition: "all 0.15s" }}>
                 {c}
               </button>
             ))}
+            {showAboutSection && (
+              <button onClick={() => setPortfolioSection("about")}
+                style={{ background: portfolioSection === "about" ? "#1a1a1a" : "transparent", border: `1px solid ${portfolioSection === "about" ? "#4DFFB4" : "transparent"}`, color: portfolioSection === "about" ? "#4DFFB4" : "#cccccc", padding: "5px 12px", fontSize: 11, cursor: "pointer", borderRadius: 20, fontFamily: "monospace", transition: "all 0.15s" }}>
+                Sobre mí
+              </button>
+            )}
           </nav>
           {isAdmin && (
-            <button onClick={goToAdmin} style={{ background: "#1a1a1a", border: "1px solid #2a2a2a", color: "#4DFFB4", padding: "6px 14px", fontSize: 11, cursor: "pointer", borderRadius: 4, fontFamily: "monospace", whiteSpace: "nowrap" }}>← Admin</button>
+            <button onClick={goToAdmin} style={{ background: "#1a1a1a", border: "1px solid #2a2a2a", color: "#4DFFB4", padding: "6px 14px", fontSize: 11, cursor: "pointer", borderRadius: 4, fontFamily: "monospace" }}>← Admin</button>
           )}
         </div>
       </header>
 
-      <section style={{ padding: "72px 48px 48px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#4DFFB4", animation: "pulse 2s infinite" }} />
-          <span style={{ fontSize: 9, letterSpacing: 3, color: "#4DFFB4", fontFamily: "monospace" }}>DISPONIBLE PARA PROYECTOS</span>
-        </div>
-        <h1 style={{ fontSize: "clamp(44px,8vw,88px)", fontWeight: 400, lineHeight: 1.0, letterSpacing: -2, marginBottom: 16 }}>
-          Construyo<br /><em style={{ color: "#646464", fontStyle: "italic" }}>experiencias</em><br />digitales
-        </h1>
-        <p style={{ fontSize: 13, color: "#cccccc", fontFamily: "monospace" }}>
-          {shown.length} proyecto{shown.length !== 1 ? "s" : ""}{filter !== "All" && <> · <span style={{ color: "#4DFFB4" }}>{filter}</span></>}
-        </p>
-      </section>
+      {portfolioSection === "projects" && <>
+        <section style={{ padding: "72px 48px 48px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#4DFFB4", animation: "pulse 2s infinite" }} />
+            <span style={{ fontSize: 9, letterSpacing: 3, color: "#4DFFB4", fontFamily: "monospace" }}>DISPONIBLE PARA PROYECTOS</span>
+          </div>
+          <h1 style={{ fontSize: "clamp(44px,8vw,88px)", fontWeight: 400, lineHeight: 1.0, letterSpacing: -2, marginBottom: 16 }}>
+            Construyo<br /><em style={{ color: "#646464", fontStyle: "italic" }}>experiencias</em><br />digitales
+          </h1>
+          <p style={{ fontSize: 13, color: "#cccccc", fontFamily: "monospace" }}>
+            {shown.length} proyecto{shown.length !== 1 ? "s" : ""}{filter !== "All" && <> · <span style={{ color: "#4DFFB4" }}>{filter}</span></>}
+          </p>
+        </section>
+        <main style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 2, padding: "0 2px 2px" }}>
+          {shown.map((p, i) => (
+            <div key={p.id}
+              style={{ background: "#0d0d0d", padding: "28px", position: "relative", overflow: "hidden", transition: "transform 0.25s,box-shadow 0.25s", transform: hovered === p.id ? "translateY(-4px)" : "translateY(0)", boxShadow: hovered === p.id ? `0 20px 50px ${p.color}20` : "none", animation: "fadeUp 0.4s ease backwards", animationDelay: `${i * 0.06}s` }}
+              onMouseEnter={() => setHovered(p.id)} onMouseLeave={() => setHovered(null)}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: p.color }} />
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontFamily: "monospace" }}>
+                <span style={{ fontSize: 9, letterSpacing: 2, color: "#cccccc" }}>{p.category.toUpperCase()}</span>
+                <span style={{ fontSize: 9, color: "#cccccc" }}>{p.year}</span>
+              </div>
+              <h3 style={{ fontSize: 20, fontWeight: 400, margin: "0 0 8px", letterSpacing: -0.3 }}>{p.title}</h3>
+              <p style={{ fontSize: 12, color: "#646464", margin: "0 0 18px", lineHeight: 1.7, fontFamily: "monospace" }}>{p.description}</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 20 }}>
+                {p.tech.map(t => <span key={t} style={{ fontSize: 9, border: `1px solid ${p.color}35`, color: p.color, padding: "2px 8px", borderRadius: 20, fontFamily: "monospace" }}>{t}</span>)}
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <a href={p.link} target="_blank" rel="noreferrer" style={{ fontSize: 11, padding: "7px 14px", borderRadius: 3, fontFamily: "monospace", background: `${p.color}12`, color: p.color, textDecoration: "none" }}>Ver proyecto →</a>
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: p.color }} />
+              </div>
+            </div>
+          ))}
+        </main>
+      </>}
 
-      <main style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 2, padding: "0 2px 2px" }}>
-        {shown.map((p, i) => (
-          <div key={p.id}
-            style={{ background: "#0d0d0d", padding: "28px", position: "relative", overflow: "hidden", transition: "transform 0.25s,box-shadow 0.25s", transform: hovered === p.id ? "translateY(-4px)" : "translateY(0)", boxShadow: hovered === p.id ? `0 20px 50px ${p.color}20` : "none", animation: "fadeUp 0.4s ease backwards", animationDelay: `${i * 0.06}s` }}
-            onMouseEnter={() => setHovered(p.id)} onMouseLeave={() => setHovered(null)}
-          >
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: p.color }} />
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontFamily: "monospace" }}>
-              <span style={{ fontSize: 9, letterSpacing: 2, color: "#cccccc" }}>{p.category.toUpperCase()}</span>
-              <span style={{ fontSize: 9, color: "#cccccc" }}>{p.year}</span>
-            </div>
-            <h3 style={{ fontSize: 20, fontWeight: 400, margin: "0 0 8px", letterSpacing: -0.3 }}>{p.title}</h3>
-            <p style={{ fontSize: 12, color: "#646464", margin: "0 0 18px", lineHeight: 1.7, fontFamily: "monospace" }}>{p.description}</p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 20 }}>
-              {p.tech.map(t => <span key={t} style={{ fontSize: 9, border: `1px solid ${p.color}35`, color: p.color, padding: "2px 8px", borderRadius: 20, fontFamily: "monospace" }}>{t}</span>)}
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <a href={p.link} target="_blank" rel="noreferrer" style={{ fontSize: 11, padding: "7px 14px", borderRadius: 3, fontFamily: "monospace", background: `${p.color}12`, color: p.color, textDecoration: "none" }}>Ver proyecto →</a>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: p.color }} />
+      {portfolioSection === "about" && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "72px 48px", animation: "fadeUp 0.4s ease" }}>
+          <div style={{ display: "flex", gap: 40, marginBottom: 64, alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ width: 100, height: 100, background: "linear-gradient(135deg,#4DFFB4,#4DC8FF)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, fontWeight: 800, color: "#000", fontFamily: "monospace", flexShrink: 0 }}>{ABOUT.avatar}</div>
+            <div>
+              <h2 style={{ fontSize: 36, fontWeight: 400, letterSpacing: -1, marginBottom: 6 }}>{ABOUT.name}</h2>
+              <p style={{ fontSize: 13, color: "#4DFFB4", fontFamily: "monospace", marginBottom: 8 }}>{ABOUT.role}</p>
+              <p style={{ fontSize: 12, color: "#777", fontFamily: "monospace" }}>📍 {ABOUT.location} · ✉️ {ABOUT.email}</p>
             </div>
           </div>
-        ))}
-      </main>
+          <div style={{ marginBottom: 56 }}>
+            <p style={{ fontSize: 10, color: "#cccccc", letterSpacing: 3, fontFamily: "monospace", marginBottom: 16 }}>SOBRE MÍ</p>
+            <p style={{ fontSize: 16, color: "#aaa", lineHeight: 1.8, maxWidth: 600 }}>{ABOUT.bio}</p>
+          </div>
+          <div style={{ marginBottom: 56 }}>
+            <p style={{ fontSize: 10, color: "#cccccc", letterSpacing: 3, fontFamily: "monospace", marginBottom: 20 }}>LOGROS</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))", gap: 12 }}>
+              {ABOUT.achievements.map(a => (
+                <div key={a.label} style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 8, padding: "20px", textAlign: "center" }}>
+                  <div style={{ fontSize: 28, marginBottom: 8 }}>{a.icon}</div>
+                  <div style={{ fontSize: 28, fontWeight: 300, color: "#4DFFB4", fontFamily: "monospace", marginBottom: 4 }}>{a.value}</div>
+                  <div style={{ fontSize: 10, color: "#555", fontFamily: "monospace" }}>{a.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p style={{ fontSize: 10, color: "#cccccc", letterSpacing: 3, fontFamily: "monospace", marginBottom: 16 }}>HABILIDADES</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {ABOUT.skills.map(s => (
+                <span key={s} style={{ fontSize: 11, border: "1px solid #2a2a2a", color: "#aaa", padding: "6px 14px", borderRadius: 20, fontFamily: "monospace" }}>{s}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
-      <footer style={{ padding: "28px 48px", borderTop: "1px solid #141414", display: "flex", justifyContent: "space-between", fontFamily: "monospace" }}>
-        <span style={{ fontSize: 11, color: "#646464" }}>© 2026 Jesus Dev</span>
-        <a href="mailto:albejes12@gmail.com" style={{ fontSize: 11, color: "#4DFFB4", textDecoration: "none" }}>albejes12@gmail.com</a>
+      <footer style={{ padding: "28px 48px", borderTop: "1px solid #141414", display: "flex", justifyContent: "space-between", fontFamily: "monospace", marginTop: 40 }}>
+        <span style={{ fontSize: 11, color: "#646464" }}>© 2026 {ABOUT.name}</span>
+        <a href={`mailto:${ABOUT.email}`} style={{ fontSize: 11, color: "#4DFFB4", textDecoration: "none" }}>{ABOUT.email}</a>
       </footer>
     </div>
   );
