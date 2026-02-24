@@ -25,16 +25,11 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  /* Color de fondo de la web */
-  background-color: #080808; 
-  
-  /* Creamos las líneas horizontales y verticales */
-  background-image: 
-    linear-gradient(to right, #e0e0e0 1px, transparent 1px),
-    linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
-  
-  /* Definimos el tamaño del cuadro de la reja (ej. 40px x 40px) */
-  background-size: 40px 40px;
+  background-color: #080808 !important; 
+  background-image:
+    linear-gradient(to right, #e0e0e086 1px, transparent 1px),
+    linear-gradient(to bottom, #e0e0e086 1px, transparent 1px);
+  background-size: 60px 60px !important;
 }
 
 h1 {
