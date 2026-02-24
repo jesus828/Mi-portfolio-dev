@@ -51,7 +51,6 @@ const PROJECTS = [
   { id: 4, title: "Vinatea y Toyama", category: "CMS", year: "2024", description: "Ecosistema de consultoría legal y laboral con gestión de procesos, soluciones educativas y panel de servicios estratégicos.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "Polyglan"], color: "#e63326", link: "https://www.vinateatoyama.com/" },
   { id: 5, title: "Landing Inmobiliaria", category: "CMS", year: "2024", description: "Landing inmobiliaria con catálogo de lanzamientos, reserva de unidades y panel de amenidades.", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js"], color: "#ffc72c", link: "https://www.vibrant.com.pe/" },
   { id: 6, title: "Agencia Estratégica", category: "CMS", year: "2025", description: "Plataforma creativa con servicios de branding, desarrollo web y panel de posicionamiento de marca", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "php"], color: "#A1CDE6", link: "https://www.innamorati.ch/" },
-  { id: 7, title: "Agencia Estratégica 22", category: "CMS", year: "2025", description: "Plataforma creativa con servicios de branding, desarrollo web y panel de posicionamiento de marca", tech: ["WordPress", "Elementor Pro", "Crocoblock", "css", "js", "php"], color: "#A1CDE6", link: "https://www.innamorati.ch/" },
 ];
 
 function ls(key: string, fallback: any) {
@@ -195,7 +194,7 @@ export default function App() {
   );
 
   if (view === "login") return (
-    <div style={{ minHeight: "100vh", background: "#e62323", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Georgia,serif" }}>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Georgia,serif" }}>
       <style>{css}</style>
       <div style={{ width: 380, padding: "48px 44px", background: "#111", border: "1px solid #1e1e1e", borderRadius: 8, animation: "fadeUp 0.4s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 32 }}>
@@ -215,7 +214,7 @@ export default function App() {
   );
 
   if (view === "admin") return (
-    <div style={{ minHeight: "100vh", background: "#080808", display: "flex", fontFamily: "monospace", color: "#fff" }}>
+    <div style={{ minHeight: "100vh", display: "flex", fontFamily: "monospace", color: "#fff" }}>
       <style>{css}</style>
       <div style={{ width: 220, background: "#0e0e0e", borderRight: "1px solid #1a1a1a", padding: "28px 16px", display: "flex", flexDirection: "column", gap: 4 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: 20, marginBottom: 12, borderBottom: "1px solid #1a1a1a" }}>
