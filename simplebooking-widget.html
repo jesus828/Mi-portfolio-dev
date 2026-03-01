@@ -1,0 +1,311 @@
+<style>
+.sb-wrap {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 10px 0 20px;
+}
+.sb-wrap h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #222;
+}
+.sb-wrap p {
+  font-size: 14px;
+  color: #444;
+  margin: 0 0 16px;
+}
+.sb-form {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: visible;
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+}
+.sb-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 14px;
+  border-right: 1px solid #ddd;
+  min-width: 0;
+}
+.sb-field label {
+  font-size: 10px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+  display: block;
+  text-align: left;
+}
+.sb-field input[type="date"] {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #222;
+  width: 100%;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.sb-guests-wrap {
+  flex: 1.4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 14px;
+  border-right: 1px solid #ddd;
+  position: relative;
+  cursor: pointer;
+}
+.sb-guests-wrap label {
+  font-size: 10px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+  text-align: left;
+}
+.sb-guests-display {
+  font-size: 14px;
+  color: #222;
+  text-align: left;
+  user-select: none;
+}
+.sb-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 14px 16px;
+  z-index: 9999;
+  min-width: 240px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.sb-dropdown.open { display: block; }
+.sb-counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sb-counter:last-child { margin-bottom: 0; }
+.sb-counter-label { font-size: 13px; color: #333; }
+.sb-counter-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sb-counter-controls button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  background: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  color: #333;
+  line-height: 1;
+  padding: 0;
+}
+.sb-counter-controls button:hover { background: #f0f0f0; }
+.sb-counter-controls .sbcount { font-size: 14px; min-width: 20px; text-align: center; }
+.sb-promo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 14px;
+  border-right: 1px solid #ddd;
+}
+.sb-promo label {
+  font-size: 10px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+  text-align: left;
+}
+.sb-promo input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #222;
+  width: 100%;
+  background: transparent;
+}
+.sb-btn {
+  background: #2d4a2d;
+  color: #fff;
+  border: none;
+  padding: 0 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: 0 6px 6px 0;
+}
+.sb-btn:hover { background: #1e3a1e; }
+
+@media (max-width: 680px) {
+  .sb-form { flex-direction: column; }
+  .sb-field, .sb-guests-wrap, .sb-promo { border-right: none; border-bottom: 1px solid #ddd; }
+  .sb-btn { padding: 14px; justify-content: center; border-radius: 0 0 6px 6px; }
+}
+</style>
+
+<div class="sb-wrap">
+  <h2>¡Reserva Ahora!</h2>
+  <p>El mejor precio, sólo en nuestro sitio oficial, garantizado.</p>
+
+  <div class="sb-form">
+
+    <div class="sb-field">
+      <label>Llegada</label>
+      <input type="date" id="sb-checkin">
+    </div>
+
+    <div class="sb-field">
+      <label>Salida</label>
+      <input type="date" id="sb-checkout">
+    </div>
+
+    <div class="sb-guests-wrap" id="sbGuestsWrap">
+      <label>Huéspedes</label>
+      <div class="sb-guests-display" id="sbGuestsDisplay">2 adultos · 0 niños</div>
+      <div class="sb-dropdown" id="sbDropdown">
+        <div class="sb-counter">
+          <span class="sb-counter-label">Adultos</span>
+          <div class="sb-counter-controls">
+            <button id="sb-adults-minus">−</button>
+            <span class="sbcount" id="sbAdults">2</span>
+            <button id="sb-adults-plus">+</button>
+          </div>
+        </div>
+        <div class="sb-counter">
+          <span class="sb-counter-label">Niños</span>
+          <div class="sb-counter-controls">
+            <button id="sb-children-minus">−</button>
+            <span class="sbcount" id="sbChildren">0</span>
+            <button id="sb-children-plus">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-promo">
+      <label>Código Promocional</label>
+      <input type="text" id="sbPromo" placeholder="Opcional">
+    </div>
+
+    <button class="sb-btn" id="sbVerTarifas">
+      Ver Tarifas &#128269;
+    </button>
+
+  </div>
+</div>
+
+<script>
+(function() {
+
+  // ── CONFIGURACIÓN ─────────────────────────────────────
+  var BASE_URL  = "https://www.simplebooking.it/ibe2/hotel/10870";
+  var LANG      = "ES";
+  var CUR       = "PEN";
+  // ──────────────────────────────────────────────────────
+
+  var adults   = 2;
+  var children = 0;
+
+  function updateDisplay() {
+    var txt = adults + ' adulto' + (adults !== 1 ? 's' : '');
+    txt += ' · ' + children + ' niño' + (children !== 1 ? 's' : '');
+    document.getElementById('sbGuestsDisplay').textContent = txt;
+    document.getElementById('sbAdults').textContent   = adults;
+    document.getElementById('sbChildren').textContent = children;
+  }
+
+  // Botones contador
+  document.getElementById('sb-adults-minus').addEventListener('click',   function(e){ e.stopPropagation(); adults   = Math.max(1, adults-1);   updateDisplay(); });
+  document.getElementById('sb-adults-plus').addEventListener('click',    function(e){ e.stopPropagation(); adults++;                           updateDisplay(); });
+  document.getElementById('sb-children-minus').addEventListener('click', function(e){ e.stopPropagation(); children = Math.max(0, children-1); updateDisplay(); });
+  document.getElementById('sb-children-plus').addEventListener('click',  function(e){ e.stopPropagation(); children++;                         updateDisplay(); });
+
+  // Toggle dropdown
+  document.getElementById('sbGuestsWrap').addEventListener('click', function() {
+    document.getElementById('sbDropdown').classList.toggle('open');
+  });
+
+  // Cerrar dropdown al click fuera
+  document.addEventListener('click', function(e) {
+    if (!document.getElementById('sbGuestsWrap').contains(e.target)) {
+      document.getElementById('sbDropdown').classList.remove('open');
+    }
+  });
+
+  // Fechas por defecto: hoy y mañana
+  function fmt(d) {
+    return d.getFullYear() + '-'
+      + String(d.getMonth()+1).padStart(2,'0') + '-'
+      + String(d.getDate()).padStart(2,'0');
+  }
+  var hoy    = new Date();
+  var manana = new Date(hoy); manana.setDate(hoy.getDate()+1);
+  document.getElementById('sb-checkin').value  = fmt(hoy);
+  document.getElementById('sb-checkout').value = fmt(manana);
+  document.getElementById('sb-checkin').min    = fmt(hoy);
+  document.getElementById('sb-checkout').min   = fmt(manana);
+
+  document.getElementById('sb-checkin').addEventListener('change', function() {
+    var ci = new Date(this.value + 'T00:00:00');
+    ci.setDate(ci.getDate()+1);
+    var minOut = fmt(ci);
+    document.getElementById('sb-checkout').min = minOut;
+    if (document.getElementById('sb-checkout').value <= this.value)
+      document.getElementById('sb-checkout').value = minOut;
+  });
+
+  // Botón Ver Tarifas
+  document.getElementById('sbVerTarifas').addEventListener('click', function() {
+    var checkin  = document.getElementById('sb-checkin').value;
+    var checkout = document.getElementById('sb-checkout').value;
+    var promo    = document.getElementById('sbPromo').value;
+
+    if (!checkin || !checkout) {
+      alert('Por favor selecciona las fechas de llegada y salida.');
+      return;
+    }
+    if (checkin >= checkout) {
+      alert('La fecha de salida debe ser posterior a la llegada.');
+      return;
+    }
+
+    // Construir guests: A por adulto, C por niño
+    var guests = [];
+    for (var i = 0; i < adults; i++)   guests.push('A');
+    for (var i = 0; i < children; i++) guests.push('C');
+
+    var url = BASE_URL
+      + '?lang='   + LANG
+      + '&cur='    + CUR
+      + '&guests=' + guests.join(',')
+      + '&in='     + checkin
+      + '&out='    + checkout
+      + '&coupon=' + encodeURIComponent(promo);
+
+    window.open(url, '_blank');
+  });
+
+})();
+</script>
